@@ -37,6 +37,7 @@ function ab(b){
 }
 
 function filter(){
+	document.getElementById('searchbar').value = "";
 	//console.log("started filter");
 	document.getElementById("submitquery").disabled = true;
 	setTimeout(function(){document.getElementById("submitquery").disabled = false;}, 700);
@@ -395,7 +396,12 @@ function init(){
 	 			document.getElementById("showprofs").className = "btn btn-lg col-xs-12 glowing";
 	 		}
 	 		showProfs = !showProfs;
-			searchChange();
+	 		if (tableData.length != 0 && retrieveElement("searchbar").length == 0)
+				filter();
+			else if (tableData.length != 0 && retrieveElement("searchbar").length > 0)
+				searchChange();
+			else
+				setTable(0,[]);
 	 		console.log("showProfs: "+showProfs)
 	 		break;
 	 		case "technical":
