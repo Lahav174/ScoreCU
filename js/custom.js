@@ -23,8 +23,11 @@ var firstRun = true;
 var ipAddress = "";
 var userIDset = false;
 
-var showProfs = true;
+var showProfs = false;
 var queryNum = "s1"
+
+//var showProfs = false;
+
 
 
 function ab(b){
@@ -44,7 +47,7 @@ function filter(){
 	writeData("PrivateStatistics/Searches/" + lastSunday + "/" + Date.now() + " " + $.cookie('userID'), "T: " + ab(filterTechnical) + ", NT: " + ab(filterNonTechnical) + 
 		", GC: " + ab(filterGlobalCore) + ", Min: " + (minLevel/1000) + ", Max: " + (maxLevel/1000) + ", SN: " + ab(filterSilver) + ", GN: " + ab(filterGold));
 
-	var datArr = substrSearch(textParam,"s6",true);
+	var datArr = substrSearch(textParam,"s6",showProfs);
 	if (filterGold || filterSilver){
 		datArr = datArr.filter(function(e){
 			var name = e["profName"];
@@ -148,14 +151,6 @@ function filter(){
 
 	function setTable(page,data) {
 
-		console.log("DATA: "+data);
-
-		for (var i = 0; i < data.length; i++) {
-			console.log("\n------------------------------");
-			console.log(data[i]["course_name"]);
-			console.log(data[i]["course_ID"]);
-		}
-
 		var coursesPerPage = 16;
 
 		if (rightPageEnabled = (data.length > coursesPerPage*(page+1))){
@@ -174,27 +169,41 @@ function filter(){
 		var str = "<thead>";
 		str += "<tr class=\"active\">";
 		str += "<th>#</th>";
-		str += "<th>Inst. Quality</th>";
-		str += "<th>Professor</th>";
+		console.log(showProfs);
+		if (showProfs){
+			console.log("Hello");
+			str += "<th>Inst. Quality</th>";
+			str += "<th>Instructor</th>";
+		} else {
+			str += "<th></th><th></th>"
+		}
 		str += "<th>Course ID</th>";
 		str += "<th>Course Name</th>"
-		str += "<th>A-Range</th>"
+		str += "<th>Query (Q1)</th>"
 		str += "</tr>"
 		str += "</thead>"
 		str += "<tbody>";
-		var maxProfLen = 27;
-		var maxCourseLen = 35;
+		var maxProfLen = 22;
+		var maxCourseLen;
+		if (showProfs)
+		 	maxCourseLen = 25;
+		 else
+		 	maxCourseLen = 50;
 		for (var i=page*coursesPerPage; i<coursesPerPage*(page+1); i++){
 			if (i < data.length){				
 				str += "<tr>";
 				str += "<td>" + (i+1) + "</td>";
 
-				str += "<td>"+data[i]["Instructor_Quality"][0].toString().substring(0,4) + " &plusmn " + data[i]["Instructor_Quality"][1].toString().substring(0,4) + "</a>" + "</td>";
+				if (showProfs){
+					str += "<td>"+data[i]["Instructor_Quality"][0].toString().substring(0,4) + " &plusmn " + data[i]["Instructor_Quality"][1].toString().substring(0,4) + "</a>" + "</td>";
 
-				if (data[i]["Instructor"].length < maxProfLen){
-					str += "<td>" + data[i]["Instructor"] + "</td>";
+					if (data[i]["Instructor"].length < maxProfLen){
+						str += "<td>" + data[i]["Instructor"] + "</td>";
+					} else {
+						str += "<td>" + data[i]["Instructor"].substring(0,maxProfLen-2) + "...</td>";
+					}
 				} else {
-					str += "<td>" + data[i]["Instructor"].substring(0,maxProfLen-2) + "...</td>";
+					str += "<td></td><td></td>"
 				}
 				str += "<td>" + data[i]["course_ID"] + "</td>";
 				if (data[i]["course_name"].length < maxCourseLen){
@@ -204,7 +213,6 @@ function filter(){
 				}
 				var percentageStr = data[i]["query"][0].toString().substring(0,4) + " &plusmn " + data[i]["query"][1].toString().substring(0,4)
 				
-				console.log(percentageStr);
 				str += "<td>"+percentageStr + "</a>" + "</td>";
 				str += "</tr>";
 			} else {
@@ -301,7 +309,7 @@ function searchChange(){
 		setTable(0,[]);
 		$("#searchres").html("<font color=\"grey\"><b>Search Results</b></font>");
 	} else {
-		var matching = substrSearch(searchText,"s6",true);
+		var matching = substrSearch(searchText,"s6",showProfs);
 		matching.sort(function(a,b) { return (a["ar"] < b["ar"]) ? 1 : ((b["ar"] < a["ar"]) ? -1 : 0);} );
 		setTable(0,matching);
 		$("#searchres").html("<font color=\"grey\"><b>("+ matching.length +" Results)</b></font>");
@@ -347,13 +355,14 @@ function init(){
 	 	//console.log(e.target.id);
 	 	switch (e.target.id) {
 	 		case "showprofs":
-	 		if (showprofs){
+	 		if (showProfs){
 	 			document.getElementById("showprofs").className = "btn btn-lg col-xs-12";
 	 		} else {
 	 			document.getElementById("showprofs").className = "btn btn-lg col-xs-12 glowing";
 	 		}
-	 		showprofs = !showprofs;
-	 		console.log("showprofs: "+showprofs)
+	 		showProfs = !showProfs;
+			searchChange();
+	 		console.log("showProfs: "+showProfs)
 	 		break;
 	 		case "technical":
 	 		if (filterTechnical){
@@ -533,8 +542,8 @@ function substrSearch(substr, question, showProfs){
 							output.push(getCourseData(tree,courseID, question));
 					} else {
 						var profsForThisClass = tree["CourseIDs"][courseID]["professors"];
-						console.log(courseID);
-						console.log(profsForThisClass);
+						// console.log(courseID);
+						// console.log(profsForThisClass);
 						if (profsForThisClass){
 							for (var i=0; i<profsForThisClass.length;i++){
 								if (question in tree["CourseIDs"][courseID]){
