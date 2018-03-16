@@ -149,6 +149,29 @@ function filter(){
 		$('.popover').popover('hide')
 	}
 
+	function mapQueryNumToSymbol(qn){
+		switch(qn) {
+			case "s1":
+				return "W1"
+			case "s2":
+				return "W2"
+			case "s3":
+				return "W3"
+			case "s4":
+				return "R1"
+			case "s5":
+				return "R2"
+			case "s6":
+				return "Q1"
+			case "s7":
+				return "Q2"
+			case "s9":
+				return "Q3"
+			default:
+				alert("error");
+		} 
+	}
+
 	function setTable(page,data) {
 
 		var coursesPerPage = 16;
@@ -178,7 +201,7 @@ function filter(){
 		}
 		str += "<th>Course ID</th>";
 		str += "<th>Course Name</th>"
-		str += "<th>Query (Q1)</th>"
+		str += "<th>Query (" + mapQueryNumToSymbol(queryNum) + ")</th>"
 		str += "</tr>"
 		str += "</thead>"
 		str += "<tbody>";
