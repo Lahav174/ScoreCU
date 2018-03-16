@@ -230,9 +230,9 @@ function filter(){
 				}
 				str += "<td>" + data[i]["course_ID"] + "</td>";
 				if (data[i]["course_name"].length < maxCourseLen){
-					str += "<td>" + data[i]["course_name"] + "</td>";
+					str += "<td>" + cleanStr(data[i]["course_name"]) + "</td>";
 				} else {
-					str += "<td>" + data[i]["course_name"].substring(0,maxCourseLen-2) + "...</td>";
+					str += "<td>" + cleanStr(data[i]["course_name"].substring(0,maxCourseLen-2)) + "...</td>";
 				}
 				var percentageStr = data[i]["query"][0].toString().substring(0,4) + " &plusmn " + data[i]["query"][1].toString().substring(0,4)
 				percentageStr += "<sub> ("+data[i]["query"][2]+")<sub>";
@@ -274,11 +274,13 @@ function filter(){
 		var arr = preoutput.split(' ');
 		var output = "";
 		for (var i=0;i<arr.length;i++){
-			if (arr[i].toLowerCase() != "i" && arr[i].toLowerCase() != "ii" && arr[i].toLowerCase() != "iii" && arr[i].toLowerCase() != "iv"
-				&& arr[i].toLowerCase() != "i:" && arr[i].toLowerCase() != "ii:" && arr[i].toLowerCase() != "iii:" && arr[i].toLowerCase() != "iv:"){
-				output += " " + arr[i].charAt(0).toUpperCase() + arr[i].substring(1);
+			if (arr[i].toLowerCase() == "i" || arr[i].toLowerCase() == "ii" || arr[i].toLowerCase() == "iii" || arr[i].toLowerCase() == "iv"
+				|| arr[i].toLowerCase() == "i:" || arr[i].toLowerCase() == "ii:" || arr[i].toLowerCase() == "iii:" || arr[i].toLowerCase() == "iv:"){
+				output += " " + arr[i].toUpperCase();
+		} else if (arr[i] == "or" || arr[i] == "and" || arr[i] == "to" || arr[i] == "for" || arr[i] == "in" || arr[i] == "with" || arr[i] == "of" || arr[i] == "on"){
+			output += " " + arr[i].toLowerCase();
 		} else {
-			output += " " + arr[i].toUpperCase();
+			output += " " + arr[i].charAt(0).toUpperCase() + arr[i].substring(1);
 		}
 	}
 	return output.trim();
