@@ -24,7 +24,7 @@ var ipAddress = "";
 var userIDset = false;
 
 var showProfs = false;
-var queryNum = "s1"
+var queryNum = "s6"
 
 //var showProfs = false;
 
@@ -47,7 +47,7 @@ function filter(){
 	writeData("PrivateStatistics/Searches/" + lastSunday + "/" + Date.now() + " " + $.cookie('userID'), "T: " + ab(filterTechnical) + ", NT: " + ab(filterNonTechnical) + 
 		", GC: " + ab(filterGlobalCore) + ", Min: " + (minLevel/1000) + ", Max: " + (maxLevel/1000) + ", SN: " + ab(filterSilver) + ", GN: " + ab(filterGold));
 
-	var datArr = substrSearch(textParam,"s6",showProfs);
+	var datArr = substrSearch(textParam,queryNum,showProfs);
 	if (filterGold || filterSilver){
 		datArr = datArr.filter(function(e){
 			var name = e["profName"];
@@ -169,7 +169,6 @@ function filter(){
 		var str = "<thead>";
 		str += "<tr class=\"active\">";
 		str += "<th>#</th>";
-		console.log(showProfs);
 		if (showProfs){
 			console.log("Hello");
 			str += "<th>Inst. Quality</th>";
@@ -309,7 +308,7 @@ function searchChange(){
 		setTable(0,[]);
 		$("#searchres").html("<font color=\"grey\"><b>Search Results</b></font>");
 	} else {
-		var matching = substrSearch(searchText,"s6",showProfs);
+		var matching = substrSearch(searchText,queryNum,showProfs);
 		matching.sort(function(a,b) { return (a["ar"] < b["ar"]) ? 1 : ((b["ar"] < a["ar"]) ? -1 : 0);} );
 		setTable(0,matching);
 		$("#searchres").html("<font color=\"grey\"><b>("+ matching.length +" Results)</b></font>");
@@ -469,6 +468,25 @@ function init(){
 		$("#maxCover").html(maxLevel + "   <span class=\"caret\"></span>");
 	});
 
+	jQuery(".dropQueryBtn").click(function(e){
+		e.preventDefault();
+		queryNum = e.target.id;
+		searchChange();
+		console.log(queryNum);
+		// switch (e.target.id) {
+		// 	case "S1": 
+		// 	queryNum = 1000;
+		// 	break;
+		// 	case "S6": 
+		// 	minLevel = 2000;
+		// 	break;
+		// 	default:
+		// 	console.log("THIS IS THE TARGET ID: " + e.target.id);
+		// 	//alert("The target id is: " + e.target.id + ". This shouldn't happen.");
+
+		// }
+	});
+
 	
 
 	window.addEventListener("beforeunload", function(e){
@@ -525,7 +543,7 @@ function substrSearch(substr, question, showProfs){
 
 		var tree = firData
 
-		//console.log(tree);
+		console.log("QUESTION: "+question);
 
 		substr = substr.toLowerCase();
 
