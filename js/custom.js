@@ -25,8 +25,7 @@ var userIDset = false;
 
 var showProfs = false;
 var queryNum = "s6"
-
-//var showProfs = false;
+var threshholdNum = 0;
 
 
 
@@ -110,8 +109,9 @@ function filter(){
 	}
 
 	//console.log("Done!");
-	datArr.sort(function(a,b) {
-		return (a["ar"] < b["ar"]) ? 1 : ((b["ar"] < a["ar"]) ? -1 : 0);} );
+	datArr = datArr.filter(function(e) { return e["query"][2] >= threshholdNum; });
+	datArr.sort(function(a,b) { return (a["query"] < b["query"]) ? 1 : ((b["query"] < a["query"]) ? -1 : 0);} );
+
 		//console.log(datArr);
 		setTable(0,datArr);
 		$("#searchres").html("<font color=\"grey\"><b>("+ datArr.length +" Results)</b></font>");
@@ -217,7 +217,7 @@ function filter(){
 				str += "<td>" + (i+1) + "</td>";
 
 				if (showProfs){
-					str += "<td>"+data[i]["Instructor_Quality"][0].toString().substring(0,4) + " &plusmn " + data[i]["Instructor_Quality"][1].toString().substring(0,4) + "</a>" + "</td>";
+					str += "<td>"+data[i]["Instructor_Quality"][0].toString().substring(0,4) + " &plusmn " + data[i]["Instructor_Quality"][1].toString().substring(0,4) + "<sub> ("+data[i]["Instructor_Quality"][2]+")<sub>" + "</a>" + "</td>";
 
 					if (data[i]["Instructor"].length < maxProfLen){
 						str += "<td>" + data[i]["Instructor"] + "</td>";
@@ -234,6 +234,7 @@ function filter(){
 					str += "<td>" + data[i]["course_name"].substring(0,maxCourseLen-2) + "...</td>";
 				}
 				var percentageStr = data[i]["query"][0].toString().substring(0,4) + " &plusmn " + data[i]["query"][1].toString().substring(0,4)
+				percentageStr += "<sub> ("+data[i]["query"][2]+")<sub>";
 				
 				str += "<td>"+percentageStr + "</a>" + "</td>";
 				str += "</tr>";
@@ -332,7 +333,8 @@ function searchChange(){
 		$("#searchres").html("<font color=\"grey\"><b>Search Results</b></font>");
 	} else {
 		var matching = substrSearch(searchText,queryNum,showProfs);
-		matching.sort(function(a,b) { return (a["ar"] < b["ar"]) ? 1 : ((b["ar"] < a["ar"]) ? -1 : 0);} );
+		matching = matching.filter(function(e) { return e["query"][2] >= threshholdNum; });
+		matching.sort(function(a,b) { return (a["query"] < b["query"]) ? 1 : ((b["query"] < a["query"]) ? -1 : 0);} );
 		setTable(0,matching);
 		$("#searchres").html("<font color=\"grey\"><b>("+ matching.length +" Results)</b></font>");
 		if (matching.length > 0){
@@ -341,6 +343,15 @@ function searchChange(){
 			$("#tableerror").html("<b>No results matched your search</b>");
 		}
 	}
+}
+
+function participantThreshhold(){
+	var threshholdText = retrieveElement("threshhold")
+	if (threshholdText.length == 0)
+		threshholdNum = 0;
+	else 
+		threshholdNum = Number(threshholdText);
+	
 }
 
 function init(){
@@ -358,6 +369,7 @@ function init(){
 	firebase.initializeApp(config);	
 	
 	document.getElementById("submitquery").disabled = true;
+	setTimeout(function(){document.getElementById("submitquery").disabled = false;}, 700);
 
 	var ref = firebase.database().ref();
 	ref.child("Data").on("value", function(snapshot) {

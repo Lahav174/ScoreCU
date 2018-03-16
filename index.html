@@ -70,6 +70,11 @@
 						</form>
 					</div>
 					<div class="row top30">
+						<div class="row text-center" style="font-size: medium; font-face: 'Arial">
+							Select your query
+						</div>
+					</div>
+					<div class="row">
 						<div class="dropdown center-inner">
 							<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="questiondropdown">If this was not a required course, would you <br/>recommend it to another student?
 								<span class="caret"></span>
@@ -88,6 +93,18 @@
 								<li><a href="#" id="s9" class="dropQueryBtn">Q3) Of all the CS courses you have taken, how <br/>does this course rank?</a></li>
 							</ul>
 						</div>
+					</div>
+					
+					<div class="row top30">
+						<div class="col-xs-7 text-center" style="font-size: medium; font-face: 'Arial">
+							Will only show query <br/>results with at least
+						</div>
+						<form class="form-horizontal col-xs-5 top10" id="searchForm">
+							<input type="number" name="quantity" min="0" oninput="participantThreshhold()" style="font-size: 10pt" class="form-control" id="threshhold" placeholder="e.g. 40">
+						</form>
+					</div>
+					<div class="row">
+						<div class="col-xs-push-7 col-xs-5 text-center top5">Votes</div>
 					</div>
 					<div class="row top30">
 						<button type="button" class="btn btn-lg col-xs-12" style="color:white; font-size: xsall; font-face: 'HelveticaNeue" id="showprofs">Show Instructor Quality</button>
