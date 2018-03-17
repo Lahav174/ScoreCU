@@ -526,40 +526,52 @@ function init(){
 		e.preventDefault();
 		queryNum = e.target.id;
 		
-		console.log(queryNum);//questiondropdown
+		console.log(queryNum);
 
 		var queryText = ""
+		var answerChoices = "On each evaluation, students had four answer choices:<br/><br/>"
 
 		switch (e.target.id) {
 			case "s1": 
 			queryText += "W1) How did the workload of this course <br/>compare to that of other courses you've taken in <br/>Computer Science?";
+			answerChoices += "1) Much heavier<br/>2) Slightly heavier<br/>3) About the same<br/>4) A bit easier<br/>5) Much easier"
 			break;
 			case "s2": 
 			queryText += "W2) How does the workload in this course <br/>compare to Columbia courses with a similar <br/>structure (e.g. a lecture, seminar, <br/>laboratory, or language course)?";
+			answerChoices += "1) Much lighter workload<br/>2) Lighter workload<br/>3) Comparable workload<br/>4) Heavier workload<br/>5) Much heavier workload"
 			break;
 			case "s3": 
 			queryText +="W3) How did the workload of this course <br/>compare to that of other courses you've taken <br/>in other departments?";
+			answerChoices += "1) Much heavier<br/>2) Slightly heavier<br/>3) About the same<br/>4) A bit easier<br/>5) Much easier"
 			break;
 			case "s4": 
-			queryText += "R1) If this was not a required course, would you <br/>recommend it to another student?";
+			queryText += "R1) If this was not a required course,<br/> would you recommend it to another student?";
+			answerChoices += "1) Definitely not recommend<br/>2) Probably not recommend<br/>3) I'm not sure I'd recommend<br/>4) Yes, probably recommend<br/>5) Yes, definitely recommend'"
 			break;
 			case "s5": 
 			queryText += "R2) Would you recommend <br/>this course to another student?";
+			answerChoices += "1) Definitely not recommend<br/>2) Probably not recommend<br/>3) I'm not sure I'd recommend<br/>4) Yes, probably recommend<br/>5) Yes, definitely recommend"
 			break;
 			case "s6": 
 			queryText += "Q1) Course: Overall Quality";
+			answerChoices += "1) Poor<br/>2) Fair<br/>3) Good<br/>4) Very Good<br/>5) Excellent"
 			break;
 			case "s7": 
 			queryText += "Q2) What is your overall <br/>assessment of this course?";
+			answerChoices += "1) Poor<br/>2) Fair<br/>3) Good<br/>4) Very Good<br/>5) Excellent"
 			break;
 			case "s9": 
 			queryText += "Q3) Of all the CS courses you have taken, how <br/>does this course rank?";
+			answerChoices += "1) Very high<br/>2) Better than average<br/>3) Average<br/>4) Worse than average <br/>5) Very low"
 			break;
 			default:
 			console.log("THIS IS THE TARGET ID: " + e.target.id);
 			//alert("The target id is: " + e.target.id + ". This shouldn't happen.");
 
 		}
+
+		document.getElementById('queryexplanation').setAttribute("data-original-title",queryText);
+		document.getElementById('queryexplanation').setAttribute("data-content",answerChoices);
 
 		queryText += " <span class=\"caret\"></span>"
 
