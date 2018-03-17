@@ -48,29 +48,31 @@ function filter(){
 		", GC: " + ab(filterGlobalCore) + ", Min: " + (minLevel/1000) + ", Max: " + (maxLevel/1000) + ", SN: " + ab(filterSilver) + ", GN: " + ab(filterGold));
 
 	var datArr = substrSearch(textParam,queryNum,showProfs);
-	if (filterGold || filterSilver){
-		// datArr = datArr.filter(function(e){
-		// 	var name = e["profName"];
-		// 	if (filterGold){
-		// 		for (var i = 0; i < goldNuggets["professors"].length; i++) {
-		// 			var firstName = goldNuggets["professors"][i]["first_name"];
-		// 			var lastName = goldNuggets["professors"][i]["last_name"];
-		// 			if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
-		// 				return true;
-		// 			} 
-		// 		}
-		// 	} 
-		// 	if (filterSilver){
-		// 		for (var i = 0; i < silverNuggets["professors"].length; i++) {
-		// 			var firstName = silverNuggets["professors"][i]["first_name"];
-		// 			var lastName = silverNuggets["professors"][i]["last_name"];
-		// 			if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
-		// 				return true;
-		// 			} 
-		// 		}
-		// 	}
-		// 	return false;
-		// });
+	if (showProfs){ 
+		if (filterGold || filterSilver){
+			datArr = datArr.filter(function(e){
+				var name = e["Instructor"];
+				if (filterGold){
+					for (var i = 0; i < goldNuggets["professors"].length; i++) {
+						var firstName = goldNuggets["professors"][i]["first_name"];
+						var lastName = goldNuggets["professors"][i]["last_name"];
+						if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
+							return true;
+						} 
+					}
+				} 
+				if (filterSilver){
+					for (var i = 0; i < silverNuggets["professors"].length; i++) {
+						var firstName = silverNuggets["professors"][i]["first_name"];
+						var lastName = silverNuggets["professors"][i]["last_name"];
+						if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
+							return true;
+						} 
+					}
+				}
+				return false;
+			});
+		}
 	} 
 	if (filterGlobalCore){
 		datArr = datArr.filter(function(e){
@@ -385,14 +387,26 @@ function init(){
 
 	setTable(0,[]);
 
+	document.getElementById("silvernuggetbtn").disabled = true;
+	document.getElementById("goldnuggetbtn").disabled = true;
+
 	jQuery("button").click(function(e){
 	 	//console.log(e.target.id);
 	 	switch (e.target.id) {
 	 		case "showprofs":
 	 		if (showProfs){
 	 			document.getElementById("showprofs").className = "btn btn-lg col-xs-12";
+	 			document.getElementById("silvernuggetbtn").disabled = true;
+	 			document.getElementById("silvernuggetbtn").className = "btn btn-lg col-xs-5 col-xs-push-0";
+	 			filterSilver = false;
+	 			document.getElementById("goldnuggetbtn").disabled = true;
+	 			document.getElementById("silvernuggetbtn").className = "btn btn-lg col-xs-5 col-xs-push-0";
+	 			filterGold = false;
+
 	 		} else {
 	 			document.getElementById("showprofs").className = "btn btn-lg col-xs-12 glowing";
+	 			document.getElementById("silvernuggetbtn").disabled = false;
+	 			document.getElementById("goldnuggetbtn").disabled = false;
 	 		}
 	 		showProfs = !showProfs;
 	 		if (tableData.length != 0 && retrieveElement("searchbar").length == 0)
