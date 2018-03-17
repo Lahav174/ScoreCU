@@ -525,20 +525,47 @@ function init(){
 	jQuery(".dropQueryBtn").click(function(e){
 		e.preventDefault();
 		queryNum = e.target.id;
-		searchChange();
-		console.log(queryNum);
-		// switch (e.target.id) {
-		// 	case "S1": 
-		// 	queryNum = 1000;
-		// 	break;
-		// 	case "S6": 
-		// 	minLevel = 2000;
-		// 	break;
-		// 	default:
-		// 	console.log("THIS IS THE TARGET ID: " + e.target.id);
-		// 	//alert("The target id is: " + e.target.id + ". This shouldn't happen.");
+		
+		console.log(queryNum);//questiondropdown
 
-		// }
+		var queryText = ""
+
+		switch (e.target.id) {
+			case "s1": 
+			queryText += "W1) How did the workload of this course <br/>compare to that of other courses you've taken in <br/>Computer Science?";
+			break;
+			case "s2": 
+			queryText += "W2) How does the workload in this course <br/>compare to Columbia courses with a similar <br/>structure (e.g. a lecture, seminar, <br/>laboratory, or language course)?";
+			break;
+			case "s3": 
+			queryText +="W3) How did the workload of this course <br/>compare to that of other courses you've taken <br/>in other departments?";
+			break;
+			case "s4": 
+			queryText += "R1) If this was not a required course, would you <br/>recommend it to another student?";
+			break;
+			case "s5": 
+			queryText += "R2) Would you recommend <br/>this course to another student?";
+			break;
+			case "s6": 
+			queryText += "Q1) Course: Overall Quality";
+			break;
+			case "s7": 
+			queryText += "Q2) What is your overall <br/>assessment of this course?";
+			break;
+			case "s9": 
+			queryText += "Q3) Of all the CS courses you have taken, how <br/>does this course rank?";
+			break;
+			default:
+			console.log("THIS IS THE TARGET ID: " + e.target.id);
+			//alert("The target id is: " + e.target.id + ". This shouldn't happen.");
+
+		}
+
+		queryText += " <span class=\"caret\"></span>"
+
+		document.getElementById('questiondropdown').innerHTML = queryText;
+
+		searchChange();
 	});
 
 	
