@@ -49,35 +49,34 @@ function filter(){
 
 	var datArr = substrSearch(textParam,queryNum,showProfs);
 	if (filterGold || filterSilver){
-		datArr = datArr.filter(function(e){
-			var name = e["profName"];
-			if (filterGold){
-				for (var i = 0; i < goldNuggets["professors"].length; i++) {
-					var firstName = goldNuggets["professors"][i]["first_name"];
-					var lastName = goldNuggets["professors"][i]["last_name"];
-					if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
-						return true;
-					} 
-				}
-			} 
-			if (filterSilver){
-				for (var i = 0; i < silverNuggets["professors"].length; i++) {
-					var firstName = silverNuggets["professors"][i]["first_name"];
-					var lastName = silverNuggets["professors"][i]["last_name"];
-					if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
-						return true;
-					} 
-				}
-			}
-			return false;
-		});
+		// datArr = datArr.filter(function(e){
+		// 	var name = e["profName"];
+		// 	if (filterGold){
+		// 		for (var i = 0; i < goldNuggets["professors"].length; i++) {
+		// 			var firstName = goldNuggets["professors"][i]["first_name"];
+		// 			var lastName = goldNuggets["professors"][i]["last_name"];
+		// 			if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
+		// 				return true;
+		// 			} 
+		// 		}
+		// 	} 
+		// 	if (filterSilver){
+		// 		for (var i = 0; i < silverNuggets["professors"].length; i++) {
+		// 			var firstName = silverNuggets["professors"][i]["first_name"];
+		// 			var lastName = silverNuggets["professors"][i]["last_name"];
+		// 			if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
+		// 				return true;
+		// 			} 
+		// 		}
+		// 	}
+		// 	return false;
+		// });
 	} 
 	if (filterGlobalCore){
 		datArr = datArr.filter(function(e){
-			var id = e["id"].split(' ');
 			for (var i = 0; i < globalCores.length; i++) {
-				var gcID = globalCores[i];
-				if (gcID.indexOf(id[0]) >= 0 && gcID.indexOf(id[1]) >= 0){
+				var gcID = globalCores[i].split(' ');
+				if (e["course_ID"].includes(gcID[0]) && e["course_ID"].includes(gcID[1].substring(gcID[1].length-4))){
 					return true;
 				} 
 			}
@@ -86,25 +85,23 @@ function filter(){
 	}
 	if (filterTechnical){
 		datArr = datArr.filter(function(e){
-			var id = e["id"].split(' ');
-			return $.inArray(id[0], techs) != -1;
+			return $.inArray(e["course_ID"].substring(0,4), techs) != -1;
 		});
 	}
 	if (filterNonTechnical){
 		datArr = datArr.filter(function(e){
-			var id = e["id"].split(' ');
-			return $.inArray(id[0], nontechs) != -1;
+			return $.inArray(e["course_ID"].substring(0,4), nontechs) != -1;
 		});
 	}
 	if (document.getElementById('levelcheckboxmin').checked) {
 		datArr = datArr.filter(function(e){
-			var sig = (e["id"].split(' '))[1];
+			var sig = e["course_ID"];
 			return Number(sig.charAt(sig.length-4))*1000 >= minLevel;
 		});
 	}
 	if (document.getElementById('levelcheckboxmax').checked) {
 		datArr = datArr.filter(function(e){
-			var sig = (e["id"].split(' '))[1];
+			var sig = e["course_ID"];
 			return Number(sig.charAt(sig.length-4))*1000 <= maxLevel;
 		});
 	}
