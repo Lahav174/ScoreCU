@@ -357,7 +357,7 @@ function participantThreshhold(){
 }
 
 function init(){
-	//console.log("Build 289");
+	console.log("Build 290");
 	var config = {
 		apiKey: "AIzaSyCbrQzainAk71S-KJByf8GdMs7zNPxm03g",
 		authDomain: "scorecu-93fcb.firebaseapp.com",
@@ -415,7 +415,7 @@ function init(){
 				searchChange();
 			else
 				setTable(0,[]);
-	 		console.log("showProfs: "+showProfs)
+	 		//console.log("showProfs: "+showProfs)
 	 		break;
 	 		case "technical":
 	 		if (filterTechnical){
@@ -526,7 +526,7 @@ function init(){
 		e.preventDefault();
 		queryNum = e.target.id;
 		
-		console.log(queryNum);
+		//console.log(queryNum);
 
 		var queryText = ""
 		var answerChoices = "On each evaluation, students had four answer choices:<br/><br/>"
@@ -599,7 +599,7 @@ function init(){
 				console.log("Old user:", currentID);
 				var count = data["Users"][currentID];
 				writeData("Statistics/Users/" + currentID,count+1);
-				if (currentID != "qxyru3" && currentID != "DAXO5F"){
+				if (currentID != "Ni4h2K" && currentID != "Ni4h2K"){
 					writeData("Statistics/Visits",data["Visits"]+1);
 				}
 			} else {
