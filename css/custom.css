@@ -57,6 +57,10 @@ font-size: large;
 	background-color: #C01C1C;
 }
 
+#instructorbuttonexplanation {
+	word-wrap: normal;
+	white-space: normal;
+}
 
 #technical {
 	background-color: #F0AD4E;
