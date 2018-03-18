@@ -1,9 +1,6 @@
 
 var firData;
 
-var savedSearch = "nil";
-var numBackspace = 0;
-
 var filterGlobalCore = false;
 var filterTechnical = false;
 var filterNonTechnical = false;
@@ -286,23 +283,46 @@ function filter(){
 	return output.trim();
 }
 
+
+var didRecordSearch = false;
+var numBackspace = 0;
+var previousSearch = "nil";
+var searchSavedBeforeBS = "nil";
+
 $( "#searchbar" ).keydown(function(event) {
-	var input = document.getElementById('searchbar');
+	var input = retrieveElement('searchbar');
 	var key = event.which;
-	if (key == 8 && numBackspace == 0){
-		savedSearch = (retrieveElement("searchbar")).trim();
-		numBackspace++;
-	} else if (key == 8 && numBackspace != 2){
-		numBackspace++;
-	} else if (key == 8 && numBackspace == 2){
-		if (savedSearch.length > 3){
+
+	//console.log(input);
+	
+	if (previousSearch != "nil" && input.length < previousSearch.length && !didRecordSearch && key != 8){
+		didRecordSearch = true;
+		if (previousSearch.length >= 3){
+			//console.log("print: " + previousSearch)
 			var lastSunday = dateOfLastSunday();
-			writeData("PrivateStatistics/Searches/" + lastSunday + "/" + Date.now() + " " + $.cookie('userID'),savedSearch);
+			writeData("PrivateStatistics/Searches/" + lastSunday + "/" + Date.now() + " " + $.cookie('userID'),previousSearch);
 		}
-		numBackspace++;
-	} else {
-		numBackspace = 0;
+	} else if (numBackspace == 2  && !didRecordSearch){
+		didRecordSearch = true;
+		if (searchSavedBeforeBS.length >= 3){
+			//console.log("print: " + searchSavedBeforeBS)
+			var lastSunday = dateOfLastSunday();
+			writeData("PrivateStatistics/Searches/" + lastSunday + "/" + Date.now() + " " + $.cookie('userID'),searchSavedBeforeBS);
+		}
 	}
+
+
+	if (key != 8){
+		previousSearch = input;
+		didRecordSearch = false;
+		numBackspace=0
+	} else {
+		numBackspace++;
+		if (numBackspace == 1)
+		searchSavedBeforeBS = input
+	}
+
+	
 });
 
 function dateOfLastSunday(){
@@ -645,7 +665,7 @@ function substrSearch(substr, question, showProfs){
 
 		var tree = firData
 
-		console.log("QUESTION: "+question);
+		//console.log("QUESTION: "+question);
 
 		substr = substr.toLowerCase();
 
