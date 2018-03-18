@@ -27,6 +27,30 @@
 	font-size: smaller;
 }
 
+#tabbar {
+	background-color: #F2F3F6;
+	width: 100%;
+	
+}
+
+.tab {
+	height: 45px;
+	padding-top: 8px;
+	width: 155px;
+}
+
+#ezacutab{
+	background-color: #D6E0EC;
+	margin-left: 100px;
+	border:1px solid grey;
+	border-bottom-color: #D6DFEC;
+}
+
+#scorecutab {
+	background-color: #657283;
+	margin-left: 0px;
+}
+
 .popover{
     width:200px;
 }
@@ -146,11 +170,6 @@ margin-left: -5px;
 
 #randomred{
 	background-color: #C01C1C;
-}
-
-#ezacutab{
-	background-color: #BBDFF8;
-	box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9);
 }
 
 #questiondropdown {
