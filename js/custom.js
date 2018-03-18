@@ -378,7 +378,7 @@ function participantThreshhold(){
 }
 
 function init(){
-	console.log("Build 291");
+	console.log("Build 292");
 	var config = {
 		apiKey: "AIzaSyCbrQzainAk71S-KJByf8GdMs7zNPxm03g",
 		authDomain: "scorecu-93fcb.firebaseapp.com",
@@ -392,11 +392,13 @@ function init(){
 	firebase.initializeApp(config);	
 	
 	document.getElementById("submitquery").disabled = true;
-	setTimeout(function(){document.getElementById("submitquery").disabled = false;}, 700);
+	document.getElementById("searchbar").disabled = true;
+	setTimeout(function(){document.getElementById("submitquery").disabled = false;}, 1100);
 
 	var ref = firebase.database().ref();
 	ref.child("Data").on("value", function(snapshot) {
 		this.firData = snapshot.val();
+		document.getElementById("searchbar").disabled = false;
 	});
 
 	ref.child("Z-Message").on("value", function(snapshot) {
@@ -633,6 +635,7 @@ function init(){
 			console.log("Running Locally");
 		}
 	});
+
 }
 
 function getCourseData(tree, courseID, question){
