@@ -49,6 +49,8 @@
 #scorecutab {
 	background-color: #657283;
 	margin-left: 0px;
+	border:1px solid grey;
+	border-bottom-color: #657283;
 }
 
 .popover{
