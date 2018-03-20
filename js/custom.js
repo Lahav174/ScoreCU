@@ -378,7 +378,7 @@ function participantThreshhold(){
 }
 
 function init(){
-	console.log("Build 292");
+	console.log("Build 293");
 	var config = {
 		apiKey: "AIzaSyCbrQzainAk71S-KJByf8GdMs7zNPxm03g",
 		authDomain: "scorecu-93fcb.firebaseapp.com",
@@ -556,7 +556,7 @@ function init(){
 
 		switch (e.target.id) {
 			case "s1": //exact
-			queryText += "W1) How did the workload of this course <br/>compare to that of other courses you've taken in <br/>Computer Science?";
+			queryText += "W1) How did the workload of this course <br/>compare to that of other courses you've <br/>taken in Computer Science?";
 			answerChoices += "1) Much heavier<br/>2) Slightly heavier<br/>3) About the same<br/>4) A bit easier<br/>5) Much easier"
 			break;
 			case "s2": //ignored 1, reportin 2-6
@@ -564,11 +564,11 @@ function init(){
 			answerChoices += "1) Much lighter workload<br/>2) Lighter workload<br/>3) Comparable workload<br/>4) Heavier workload<br/>5) Much heavier workload<br/><br/><small>Note: Originally, 1 was \"no basis for comparison\" and 2-6 were the other choices, so we threw out the data for 1 and shifted the other answers</small>"
 			break;
 			case "s3": //exact
-			queryText +="W3) How did the workload of this course <br/>compare to that of other courses you've taken <br/>in other departments?";
+			queryText +="W3) How did the workload of this course <br/>compare to that of other courses you've <br/>taken in other departments?";
 			answerChoices += "1) Much heavier<br/>2) Slightly heavier<br/>3) About the same<br/>4) A bit easier<br/>5) Much easier"
 			break;
 			case "s4": //exact
-			queryText += "R1) If this was not a required course,<br/> would you recommend it to another student?";
+			queryText += "R1) If this was not a required course,<br/> would you recommend <br/>it to another student?";
 			answerChoices += "1) Definitely not recommend<br/>2) Probably not recommend<br/>3) I'm not sure I'd recommend<br/>4) Yes, probably recommend<br/>5) Yes, definitely recommend'"
 			break;
 			case "s5": //exact
@@ -584,7 +584,7 @@ function init(){
 			answerChoices += "1) Poor<br/>2) Fair<br/>3) Good<br/>4) Very Good<br/>5) Excellent"
 			break;
 			case "s9": //exact. FLIPPED KINDA??
-			queryText += "Q3) Of all the CS courses you have taken, how <br/>does this course rank?";
+			queryText += "Q3) Of all the CS courses you have <br/>taken, how does this course rank?";
 			answerChoices += "1) Very low<br/>2) Worse than average <br/>3) Average<br/>4) Better than average<br/>5) Very high <br/><br/><small>Note: Originally the answer choices were in the opposite order, but we flipped them so that 5 is the best</small>"
 			break;
 			default:
@@ -620,7 +620,7 @@ function init(){
 				console.log("Old user:", currentID);
 				var count = data["Users"][currentID];
 				writeData("Statistics/Users/" + currentID,count+1);
-				if (currentID != "Ni4h2K" && currentID != "Ni4h2K"){
+				if (currentID != "JHCeM4" && currentID != "aOv6WZ"){
 					writeData("Statistics/Visits",data["Visits"]+1);
 				}
 			} else {
