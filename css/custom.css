@@ -29,7 +29,8 @@
 
 #tabbar {
 	background-color: #F2F3F6;
-	width: 10000px;	
+	 width: 100%;
+   min-width: 1250px;
 }
 
 .tab {
