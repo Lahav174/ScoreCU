@@ -27,6 +27,14 @@
 	font-size: smaller;
 }
 
+#background {
+	background-color: #657384;
+	height: 100%;
+	min-height: 1000px;
+	width: 100%;
+	min-width: 1250px;
+}
+
 #tabbar {
 	background-color: #F2F3F6;
 	 width: 100%;
