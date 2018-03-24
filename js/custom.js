@@ -427,7 +427,7 @@ function init(){
 	 			filterGold = false;
 
 	 		} else {
-	 			document.getElementById("showprofs").className = "btn btn-lg col-xs-12 glowing";
+	 			document.getElementById("showprofs").className = "btn btn-lg col-xs-12 glowingwhite";
 	 			document.getElementById("silvernuggetbtn").disabled = false;
 	 			document.getElementById("goldnuggetbtn").disabled = false;
 	 		}
