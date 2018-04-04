@@ -190,7 +190,6 @@ function filter(){
 		str += "<tr class=\"active\">";
 		str += "<th>#</th>";
 		if (showProfs){
-			console.log("Hello");
 			str += "<th>Inst. Quality</th>";
 			str += "<th>Instructor</th>";
 		} else {
@@ -378,7 +377,7 @@ function participantThreshhold(){
 }
 
 function init(){
-	console.log("Build 293");
+	console.log("Build 296");
 	var config = {
 		apiKey: "AIzaSyCbrQzainAk71S-KJByf8GdMs7zNPxm03g",
 		authDomain: "scorecu-93fcb.firebaseapp.com",
@@ -552,7 +551,7 @@ function init(){
 		//console.log(queryNum);
 
 		var queryText = ""
-		var answerChoices = "On each evaluation, students had four answer choices:<br/><br/>"
+		var answerChoices = "On each evaluation, students had five answer choices:<br/><br/>"
 
 		switch (e.target.id) {
 			case "s1": //exact
@@ -726,6 +725,18 @@ function substrSearch(substr, question, showProfs){
 				}
 			}
 		}
+
+		var curObs = [] 
+
+		output = output.filter(function(e){
+			var s = JSON.stringify(e);
+			if (curObs.includes(s)){
+				return false
+			}
+			curObs.push(s);
+			return true;
+		});
+	
 
 		return output;
 
