@@ -24,6 +24,8 @@ var showProfs = false;
 var queryNum = "s6"
 var threshholdNum = 0;
 
+var isLooking = false;
+
 
 
 function ab(b){
@@ -34,6 +36,7 @@ function ab(b){
 }
 
 function filter(){
+	isLooking = true;
 	document.getElementById('searchbar').value = "";
 	//console.log("started filter");
 	document.getElementById("submitquery").disabled = true;
@@ -325,6 +328,9 @@ $( "#searchbar" ).keydown(function(event) {
 			writeData("PrivateStatistics/Searches/" + lastSunday + "/" + Date.now() + " " + $.cookie('userID'),searchSavedBeforeBS);
 		}
 	}
+
+	isLooking = ((key != 8 && input.length >= 0) || (key == 8 && input.length > 1));
+	console.log(isLooking);
 
 
 	if (key != 8){
@@ -629,7 +635,11 @@ function init(){
 
 		document.getElementById('questiondropdown').innerHTML = queryText;
 
-		searchChange();
+		if (isLooking && retrieveElement("searchbar").length > 0)
+			searchChange();
+		else
+			filter();
+		
 	});
 
 	
