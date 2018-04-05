@@ -107,7 +107,23 @@ function filter(){
 
 	//console.log("Done!");
 	datArr = datArr.filter(function(e) { return e["query"][2] >= threshholdNum; });
-	datArr.sort(function(a,b) { return (a["query"] < b["query"]) ? 1 : ((b["query"] < a["query"]) ? -1 : 0);} );
+	// datArr.sort(function(a,b) { return (a["query"] < b["query"]) ? 1 : ((b["query"] < a["query"]) ? -1 : 0);} );
+	datArr.sort(function(a,b) { 
+
+			if (a["query"] < b["query"])
+				return 1;
+			else if (b["query"] < a["query"])
+				return -1
+			else {
+				if (showProfs && a["Instructor_Quality"] < b["Instructor_Quality"])
+					return 1;
+				else if (showProfs && b["Instructor_Quality"] < a["Instructor_Quality"])
+					return -1;
+				else
+					return 0;
+			}
+
+		} );
 
 		//console.log(datArr);
 		setTable(0,datArr);
@@ -356,7 +372,23 @@ function searchChange(){
 	} else {
 		var matching = substrSearch(searchText,queryNum,showProfs);
 		matching = matching.filter(function(e) { return e["query"][2] >= threshholdNum; });
-		matching.sort(function(a,b) { return (a["query"] < b["query"]) ? 1 : ((b["query"] < a["query"]) ? -1 : 0);} );
+		// matching.sort(function(a,b) { return (a["query"] < b["query"]) ? 1 : ((b["query"] < a["query"]) ? -1 : 0);} );
+		matching.sort(function(a,b) { 
+
+			if (a["query"] < b["query"])
+				return 1;
+			else if (b["query"] < a["query"])
+				return -1
+			else {
+				if (showProfs && a["Instructor_Quality"] < b["Instructor_Quality"])
+					return 1;
+				else if (showProfs && b["Instructor_Quality"] < a["Instructor_Quality"])
+					return -1;
+				else
+					return 0;
+			}
+
+		} );
 		setTable(0,matching);
 		$("#searchres").html("<font color=\"grey\"><b>("+ matching.length +" Results)</b></font>");
 		if (matching.length > 0){
@@ -377,7 +409,7 @@ function participantThreshhold(){
 }
 
 function init(){
-	console.log("Build 296");
+	console.log("Build 297");
 	var config = {
 		apiKey: "AIzaSyCbrQzainAk71S-KJByf8GdMs7zNPxm03g",
 		authDomain: "scorecu-93fcb.firebaseapp.com",
