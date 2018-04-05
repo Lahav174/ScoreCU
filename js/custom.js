@@ -26,6 +26,8 @@ var threshholdNum = 0;
 
 var isLooking = false;
 
+var qChoices = ["s1","s2","s3","s4","s5","s6","s7","s9",]
+
 
 
 function ab(b){
@@ -48,85 +50,15 @@ function filter(){
 		", GC: " + ab(filterGlobalCore) + ", Min: " + (minLevel/1000) + ", Max: " + (maxLevel/1000) + ", SN: " + ab(filterSilver) + ", GN: " + ab(filterGold));
 
 	var datArr = substrSearch(textParam,queryNum,showProfs);
-	if (showProfs){ 
-		if (filterGold || filterSilver){
-			datArr = datArr.filter(function(e){
-				var name = e["Instructor"];
-				if (filterGold){
-					for (var i = 0; i < goldNuggets["professors"].length; i++) {
-						var firstName = goldNuggets["professors"][i]["first_name"];
-						var lastName = goldNuggets["professors"][i]["last_name"];
-						if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
-							return true;
-						} 
-					}
-				} 
-				if (filterSilver){
-					for (var i = 0; i < silverNuggets["professors"].length; i++) {
-						var firstName = silverNuggets["professors"][i]["first_name"];
-						var lastName = silverNuggets["professors"][i]["last_name"];
-						if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
-							return true;
-						} 
-					}
-				}
-				return false;
-			});
-		}
-	} 
-	if (filterGlobalCore){
-		datArr = datArr.filter(function(e){
-			for (var i = 0; i < globalCores.length; i++) {
-				var gcID = globalCores[i].split(' ');
-				if (e["course_ID"].includes(gcID[0]) && e["course_ID"].includes(gcID[1].substring(gcID[1].length-4))){
-					return true;
-				} 
-			}
-			return false;
-		});
-	}
-	if (filterTechnical){
-		datArr = datArr.filter(function(e){
-			return $.inArray(e["course_ID"].substring(0,4), techs) != -1;
-		});
-	}
-	if (filterNonTechnical){
-		datArr = datArr.filter(function(e){
-			return $.inArray(e["course_ID"].substring(0,4), nontechs) != -1;
-		});
-	}
-	if (document.getElementById('levelcheckboxmin').checked) {
-		datArr = datArr.filter(function(e){
-			var sig = e["course_ID"];
-			return Number(sig.charAt(sig.length-4))*1000 >= minLevel;
-		});
-	}
-	if (document.getElementById('levelcheckboxmax').checked) {
-		datArr = datArr.filter(function(e){
-			var sig = e["course_ID"];
-			return Number(sig.charAt(sig.length-4))*1000 <= maxLevel;
-		});
-	}
+	datArr = filterList(datArr);
+	datArr = sortList(datArr);
 
-	//console.log("Done!");
-	datArr = datArr.filter(function(e) { return e["query"][2] >= threshholdNum; });
-	// datArr.sort(function(a,b) { return (a["query"] < b["query"]) ? 1 : ((b["query"] < a["query"]) ? -1 : 0);} );
-	datArr.sort(function(a,b) { 
-
-			if (a["query"] < b["query"])
-				return 1;
-			else if (b["query"] < a["query"])
-				return -1
-			else {
-				if (showProfs && a["Instructor_Quality"] < b["Instructor_Quality"])
-					return 1;
-				else if (showProfs && b["Instructor_Quality"] < a["Instructor_Quality"])
-					return -1;
-				else
-					return 0;
-			}
-
-		} );
+	d = []
+	for (var i = 0; i < qChoices.length; i++) {
+		if (filterList(substrSearch(textParam,qChoices[i],showProfs)).length > 0)
+			d.push(qChoices[i]);
+	}
+	console.log(d);
 
 		//console.log(datArr);
 		setTable(0,datArr);
@@ -146,6 +78,94 @@ function filter(){
 			}
 		});
 	}
+
+	function sortList(datArr){
+		datArr.sort(function(a,b) { 
+
+			if (a["query"] < b["query"])
+				return 1;
+			else if (b["query"] < a["query"])
+				return -1
+			else {
+				if (showProfs && a["Instructor_Quality"] < b["Instructor_Quality"])
+					return 1;
+				else if (showProfs && b["Instructor_Quality"] < a["Instructor_Quality"])
+					return -1;
+				else
+					return 0;
+			}
+
+		} );
+
+		return datArr;
+	}
+
+	function filterList(datArr){
+		if (showProfs){ 
+			if (filterGold || filterSilver){
+				datArr = datArr.filter(function(e){
+					var name = e["Instructor"];
+					if (filterGold){
+						for (var i = 0; i < goldNuggets["professors"].length; i++) {
+							var firstName = goldNuggets["professors"][i]["first_name"];
+							var lastName = goldNuggets["professors"][i]["last_name"];
+							if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
+								return true;
+							} 
+						}
+					} 
+					if (filterSilver){
+						for (var i = 0; i < silverNuggets["professors"].length; i++) {
+							var firstName = silverNuggets["professors"][i]["first_name"];
+							var lastName = silverNuggets["professors"][i]["last_name"];
+							if (name.indexOf(firstName) >= 0 && name.indexOf(lastName) >= 0){
+								return true;
+							} 
+						}
+					}
+					return false;
+				});
+			}
+		} 
+		if (filterGlobalCore){
+			datArr = datArr.filter(function(e){
+				for (var i = 0; i < globalCores.length; i++) {
+					var gcID = globalCores[i].split(' ');
+					if (e["course_ID"].includes(gcID[0]) && e["course_ID"].includes(gcID[1].substring(gcID[1].length-4))){
+						return true;
+					} 
+				}
+				return false;
+			});
+		}
+		if (filterTechnical){
+			datArr = datArr.filter(function(e){
+				return $.inArray(e["course_ID"].substring(0,4), techs) != -1;
+			});
+		}
+		if (filterNonTechnical){
+			datArr = datArr.filter(function(e){
+				return $.inArray(e["course_ID"].substring(0,4), nontechs) != -1;
+			});
+		}
+		if (document.getElementById('levelcheckboxmin').checked) {
+			datArr = datArr.filter(function(e){
+				var sig = e["course_ID"];
+				return Number(sig.charAt(sig.length-4))*1000 >= minLevel;
+			});
+		}
+		if (document.getElementById('levelcheckboxmax').checked) {
+			datArr = datArr.filter(function(e){
+				var sig = e["course_ID"];
+				return Number(sig.charAt(sig.length-4))*1000 <= maxLevel;
+			});
+		}
+
+	//console.log("Done!");
+	datArr = datArr.filter(function(e) { return e["query"][2] >= threshholdNum; });
+
+	return datArr;
+}
 
 	function nextPage() {
 		if (rightPageEnabled){
@@ -330,7 +350,7 @@ $( "#searchbar" ).keydown(function(event) {
 	}
 
 	isLooking = ((key != 8 && input.length >= 0) || (key == 8 && input.length > 1));
-	console.log(isLooking);
+	//console.log(isLooking);
 
 
 	if (key != 8){
@@ -378,23 +398,32 @@ function searchChange(){
 	} else {
 		var matching = substrSearch(searchText,queryNum,showProfs);
 		matching = matching.filter(function(e) { return e["query"][2] >= threshholdNum; });
+
+		d = []
+		for (var i = 0; i < qChoices.length; i++) {
+			if (substrSearch(searchText,qChoices[i],showProfs).filter(function(e) { return e["query"][2] >= threshholdNum; }).length > 0)
+				d.push(qChoices[i]);
+		}
+		console.log(d);
+
 		// matching.sort(function(a,b) { return (a["query"] < b["query"]) ? 1 : ((b["query"] < a["query"]) ? -1 : 0);} );
-		matching.sort(function(a,b) { 
+		matching = sortList(matching);
+		// matching.sort(function(a,b) { 
 
-			if (a["query"] < b["query"])
-				return 1;
-			else if (b["query"] < a["query"])
-				return -1
-			else {
-				if (showProfs && a["Instructor_Quality"] < b["Instructor_Quality"])
-					return 1;
-				else if (showProfs && b["Instructor_Quality"] < a["Instructor_Quality"])
-					return -1;
-				else
-					return 0;
-			}
+		// 	if (a["query"] < b["query"])
+		// 		return 1;
+		// 	else if (b["query"] < a["query"])
+		// 		return -1
+		// 	else {
+		// 		if (showProfs && a["Instructor_Quality"] < b["Instructor_Quality"])
+		// 			return 1;
+		// 		else if (showProfs && b["Instructor_Quality"] < a["Instructor_Quality"])
+		// 			return -1;
+		// 		else
+		// 			return 0;
+		// 	}
 
-		} );
+		// } );
 		setTable(0,matching);
 		$("#searchres").html("<font color=\"grey\"><b>("+ matching.length +" Results)</b></font>");
 		if (matching.length > 0){
@@ -415,7 +444,7 @@ function participantThreshhold(){
 }
 
 function init(){
-	console.log("Build 297");
+	console.log("Build 299");
 	var config = {
 		apiKey: "AIzaSyCbrQzainAk71S-KJByf8GdMs7zNPxm03g",
 		authDomain: "scorecu-93fcb.firebaseapp.com",
