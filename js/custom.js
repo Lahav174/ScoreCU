@@ -236,7 +236,7 @@ function filter(){
 		}
 		str += "<th>Course ID</th>";
 		str += "<th>Course Name</th>"
-		str += "<th>Query (" + mapQueryNumToSymbol(queryNum) + ")</th>"
+		str += "<th>Answer (" + mapQueryNumToSymbol(queryNum) + ")</th>"
 		str += "</tr>"
 		str += "</thead>"
 		str += "<tbody>";
@@ -444,7 +444,7 @@ function participantThreshhold(){
 }
 
 function init(){
-	console.log("Build 299");
+	console.log("Build 300");
 	var config = {
 		apiKey: "AIzaSyCbrQzainAk71S-KJByf8GdMs7zNPxm03g",
 		authDomain: "scorecu-93fcb.firebaseapp.com",
