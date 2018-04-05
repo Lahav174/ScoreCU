@@ -444,7 +444,7 @@ function participantThreshhold(){
 }
 
 function init(){
-	console.log("Build 300");
+	console.log("Build 301");
 	var config = {
 		apiKey: "AIzaSyCbrQzainAk71S-KJByf8GdMs7zNPxm03g",
 		authDomain: "scorecu-93fcb.firebaseapp.com",
@@ -498,9 +498,9 @@ function init(){
 	 			document.getElementById("goldnuggetbtn").disabled = false;
 	 		}
 	 		showProfs = !showProfs;
-	 		if (tableData.length != 0 && retrieveElement("searchbar").length == 0)
+	 		if (isLooking && retrieveElement("searchbar").length == 0)
 				filter();
-			else if (tableData.length != 0 && retrieveElement("searchbar").length > 0)
+			else if (isLooking && retrieveElement("searchbar").length > 0)
 				searchChange();
 			else
 				setTable(0,[]);
