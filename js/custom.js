@@ -627,7 +627,7 @@ function init(){
 			break;
 			case "s2": //ignored 1, reportin 2-6
 			queryText += "W2) How does the workload in this course <br/>compare to Columbia courses with a similar <br/>structure (e.g. a lecture, seminar, <br/>laboratory, or language course)?";
-			answerChoices += "1) Much lighter workload<br/>2) Lighter workload<br/>3) Comparable workload<br/>4) Heavier workload<br/>5) Much heavier workload<br/><br/><small>Note: Originally, 1 was \"no basis for comparison\" and 2-6 were the other choices, so we threw out the data for 1 and shifted the other answers</small>"
+			answerChoices += "1) Much heavier workload<br/>2) Heavier workload<br/>3) Comparable workload<br/>4) Lighter workload<br/>5) Heavier workload<br/><br/><small>Note: Originally, 1 was \"no basis for comparison\" and 2-6 were the other choices, so we threw out the data for 1 and shifted the other answers</small>"
 			break;
 			case "s3": //exact
 			queryText +="W3) How did the workload of this course <br/>compare to that of other courses you've <br/>taken in other departments?";
